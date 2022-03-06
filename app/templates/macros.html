@@ -1,0 +1,12 @@
+    
+
+<!-- Displaying reviews macro -->
+{% macro displayPitches(pitches_list) %}
+    {% for review in review_list %}
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 review-card">
+        <h2> {{ review.title}} </h2>
+        <p> {{ review.review | truncate(80) }}</p>
+    </div>
+    {% endfor %}
+{% endmacro %}
+
