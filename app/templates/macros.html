@@ -14,7 +14,10 @@
           <p class="m-0 p-0">{{pitch.post}}</p><br>
         </div>
         <div>
+
           <span class="pl-4"><a href="{{url_for('main.comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary btn-sm"> Comment</a></span>
+          <span class="pl-3"><a href="{{url_for('main.upvote',id = pitch.id)}}"> <i class="fa-solid fa-thumbs-up"></i></a> {{pitch.upvote.count()}}</span>
+          <span class="pl-3"><a class="text-dark" href="{{url_for('main.downvote',id = pitch.id)}}"> <i class="fa-solid fa-thumbs-down"></i>{{pitch.downvote.count()}}</a></span>
         </div>
 
         <div class="card-footer text-muted">
