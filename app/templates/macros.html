@@ -12,9 +12,11 @@
         <div class="card-body">
           <p class="m-0 p-0"><strong>{{pitch.title}}</strong></p>
           <p class="m-0 p-0">{{pitch.post}}</p><br>
-          
-
         </div>
+        <div>
+          <span class="pl-4"><a href="{{url_for('main.comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary btn-sm"> Comment</a></span>
+        </div>
+
         <div class="card-footer text-muted">
           <p class="text-center p-0 m-0">Posted by: {{pitch.user.username}} on {{pitch.time.strftime('%Y-%m-%d')}}</p>
         </div>

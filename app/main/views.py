@@ -1,9 +1,9 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..import db, photos
-from ..models import User,Pitch
+from ..models import User,Pitch,Comment,Upvote,Downvote
 from flask_login import login_required,current_user
-from .forms import UpdateProfile,PitchForm
+from .forms import UpdateProfile,PitchForm,CommentForm
 import datetime
 
 
@@ -82,3 +82,36 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+
+
+@main.route('/comment/<int:pitch_id>', methods = ['POST','GET'])
+@login_required
+def comment(pitch_id):
+    form = CommentForm()
+    pitch = Pitch.query.get(pitch_id)
+    comments = Comment.query.filter_by(pitch_id = pitch_id).all()
+    if form.validate_on_submit():
+        comment = form.comment.data 
+        pitch_id = pitch_id
+        new_comment = Comment(comment = comment,pitch_id = pitch_id,user=current_user)
+        new_comment.save_comment()
+        return redirect(url_for('.comment', pitch_id = pitch_id))
+    
+    return render_template('comment.html', form =form, pitch = pitch,comments=comments)   
+
+
+@main.route('/like/<int:id>',methods = ['POST','GET'])
+@login_required
+def upvote(id):
+    pitches = Upvote.get_upvotes(id)
+    usr_id = f'{current_user.id}:{id}'
+    for pitch in pitches:
+        to_string = f'{pitch}'
+        if usr_id == to_string:
+            return redirect(url_for('main.index',id=id))
+        else:
+            continue
+    new_vote = Upvote(user = current_user, pitch_id=id)
+    new_vote.save()
+    return redirect(url_for('main.index',id=id))     
