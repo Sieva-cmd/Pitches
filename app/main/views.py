@@ -1,11 +1,11 @@
-from flask import render_template,request,redirect,url_for,abort
-from . import mainBlueprint
+from flask import render_template
+from . import main
 from ..import db
 from flask_login import login_required
 
 
 #views
-@mainBlueprint.route('/')
+@main.route('/')
 @login_required
 def index():
 
@@ -16,7 +16,3 @@ def index():
     return render_template('index.html', title=title)
 
 
-# @mainBlueprint.route('/pitch')
-# def pithes():
-
-#     return render_template('pitches.html')
