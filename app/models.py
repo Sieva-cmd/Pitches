@@ -3,6 +3,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 
 
@@ -37,6 +38,26 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User{self.username}'
+
+
+class Pitch(db.Model):
+    __tablename__ = "pitches"
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(255))
+    post = db.Column(db.Text())
+    time = db.Column(db.DateTime, default = datetime.utcnow)
+    category = db.Column(db.String(255), index = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+  
+
+    
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+        
+    def __repr__(self):
+        return f'Pitch {self.post}'        
 
 
 

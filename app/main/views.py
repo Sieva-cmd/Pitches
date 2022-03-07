@@ -1,9 +1,10 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..import db, photos
-from ..models import User
-from flask_login import login_required
-from .forms import UpdateProfile
+from ..models import User,Pitch
+from flask_login import login_required,current_user
+from .forms import UpdateProfile,PitchForm
+import datetime
 
 
 #views
@@ -14,8 +15,30 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
+
+    pitches = Pitch.query.all()
+    promotion = Pitch.query.filter_by(category = 'Promotion').all()
+    interview = Pitch.query.filter_by(category = 'Interview').all() 
+    sports = Pitch.query.filter_by(category = 'Sports').all()
+    technology = Pitch.query.filter_by(category = 'Technology').all() 
     title ='Pitches'
-    return render_template('index.html', title=title)
+    return render_template('index.html', title=title,interview = interview,sports = sports, pitches = pitches,promotion= promotion,technology=technology)
+
+
+@main.route('/create_new', methods = ['POST','GET'])
+@login_required
+def new_pitch():
+    form = PitchForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        post = form.post.data
+        category = form.category.data
+        
+        new_pitch = Pitch(title = title,post=post,category=category,user=current_user)
+        new_pitch.save_pitch()
+        return redirect(url_for('main.index'))
+        
+    return render_template('new_pitch.html', form = form)    
 
 
 @main.route('/user/<uname>')
