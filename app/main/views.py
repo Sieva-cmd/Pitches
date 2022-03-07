@@ -1,10 +1,10 @@
-from flask import render_template
-from . import main
-from  ..models import Pitch
+from flask import render_template,request,redirect,url_for,abort
+from . import mainBlueprint
+from ..import db
 
 
 #views
-@main.route('/')
+@mainBlueprint.route('/')
 def index():
 
     '''
@@ -14,7 +14,7 @@ def index():
     return render_template('index.html', title=title)
 
 
-@main.route('/pitch')
-def pithes():
+# @mainBlueprint.route('/pitch')
+# def pithes():
 
-    return render_template('pitches.html')
+#     return render_template('pitches.html')
