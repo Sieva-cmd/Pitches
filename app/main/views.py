@@ -114,4 +114,20 @@ def upvote(id):
             continue
     new_vote = Upvote(user = current_user, pitch_id=id)
     new_vote.save()
-    return redirect(url_for('main.index',id=id))     
+    return redirect(url_for('main.index',id=id))  
+
+
+@main.route('/dislike/<int:id>',methods = ['POST','GET'])
+@login_required
+def downvote(id):
+    pitches = Downvote.get_downvotes(id)
+    usr_id = f'{current_user.id}:{id}'
+    for pitch in pitches:
+        to_string = f'{pitch}'
+        if usr_id == to_string:
+            return redirect(url_for('main.index',id=id))
+        else:
+            continue
+    new_downvote = Downvote(user = current_user, pitch_id=id)
+    new_downvote.save()
+    return redirect(url_for('main.index',id = id))       
