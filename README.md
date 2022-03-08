@@ -8,7 +8,7 @@ Am a full stack  developer.
 
 
 ## website image
-![News App]()
+![News App](https://github.com/Sieva-cmd/Pitches/blob/master/app/static/photos/web.png)
 
 
 
