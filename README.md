@@ -4,7 +4,7 @@
 
 #### By 
 - [sieva Lucia](https://github.com/Sieva-cmd)
-Am a full stack  developer.
+- A full stack  developer.
 
 
 ## website image
